@@ -1,0 +1,6 @@
+Django==1.11.15
+django-extra-views==0.11.0
+django-webix==0.1.1
+pytz==2018.5
+six==1.11.0
+sorl-thumbnail==12.5.0

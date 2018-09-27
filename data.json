@@ -1,0 +1,133 @@
+[
+    {
+        "model": "library.author",
+        "pk": 1,
+        "fields": {
+            "first_name": "Umberto",
+            "last_name": "Eco"
+        }
+    },
+    {
+        "model": "library.author",
+        "pk": 2,
+        "fields": {
+            "first_name": "Lev",
+            "last_name": "Tolstoj"
+        }
+    },
+    {
+        "model": "library.author",
+        "pk": 3,
+        "fields": {
+            "first_name": "James",
+            "last_name": "Joyce"
+        }
+    },
+    {
+        "model": "library.author",
+        "pk": 4,
+        "fields": {
+            "first_name": "Herman",
+            "last_name": "Melville"
+        }
+    },
+    {
+        "model": "library.author",
+        "pk": 5,
+        "fields": {
+            "first_name": "David",
+            "last_name": "Foster Wallace"
+        }
+    },
+    {
+        "model": "library.author",
+        "pk": 6,
+        "fields": {
+            "first_name": "F\u00ebdor",
+            "last_name": "Dostoevskij"
+        }
+    },
+    {
+        "model": "library.author",
+        "pk": 7,
+        "fields": {
+            "first_name": "Victor",
+            "last_name": "Hugo"
+        }
+    },
+    {
+        "model": "library.author",
+        "pk": 8,
+        "fields": {
+            "first_name": "Jane",
+            "last_name": "Austen"
+        }
+    },
+    {
+        "model": "library.author",
+        "pk": 9,
+        "fields": {
+            "first_name": "Harper",
+            "last_name": "Lee"
+        }
+    },
+    {
+        "model": "library.author",
+        "pk": 10,
+        "fields": {
+            "first_name": "Marcel",
+            "last_name": "Proust"
+        }
+    },
+    {
+        "model": "library.author",
+        "pk": 11,
+        "fields": {
+            "first_name": "Vladimir",
+            "last_name": "Nabokov"
+        }
+    },
+    {
+        "model": "library.author",
+        "pk": 12,
+        "fields": {
+            "first_name": "Margaret",
+            "last_name": "Mitchell"
+        }
+    },
+    {
+        "model": "library.author",
+        "pk": 13,
+        "fields": {
+            "first_name": "Emily",
+            "last_name": "Bronte"
+        }
+    },
+    {
+        "model": "library.book",
+        "pk": 1,
+        "fields": {
+            "title": "Il nome della rosa",
+            "description": "",
+            "author": 1
+        }
+    },
+    {
+        "model": "library.book",
+        "pk": 2,
+        "fields": {
+            "title": "Infinite jest",
+            "description": "",
+            "author": 5
+        }
+    },
+    {
+        "model": "library.book",
+        "pk": 3,
+        "fields": {
+            "title": "Wuthering Heights",
+            "description": "",
+            "author": 13
+        }
+    }
+]

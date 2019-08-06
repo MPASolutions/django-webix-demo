@@ -15,7 +15,9 @@ Including another URLconf
 """
 from django.conf.urls import url, include
 
-from library.views import HomeView, AuthorListView, AuthorCreateView, AuthorUpdateView, AuthorDeleteView
+from library.views import HomeView
+from library.views import AuthorListView, AuthorCreateView, AuthorUpdateView, AuthorDeleteView
+from library.views import BookListView, BookCreateView, BookUpdateView, BookDeleteView
 
 urlpatterns = [
     url(r'^django-webix/', include('django_webix.urls')),
@@ -26,4 +28,9 @@ urlpatterns = [
     url(r'^authors/create$', AuthorCreateView.as_view(), name='author_create'),
     url(r'^authors/update/(?P<pk>\d+)$', AuthorUpdateView.as_view(), name='author_update'),
     url(r'^authors/delete/(?P<pk>\d+)$', AuthorDeleteView.as_view(), name='author_delete'),
+
+    url(r'^books/list$', BookListView.as_view(), name='book_list'),
+    url(r'^books/create$', BookCreateView.as_view(), name='book_create'),
+    url(r'^books/update/(?P<pk>\d+)$', BookUpdateView.as_view(), name='book_update'),
+    url(r'^books/delete/(?P<pk>\d+)$', BookDeleteView.as_view(), name='book_delete'),
 ]

@@ -12,13 +12,13 @@ $$("{{ view.webix_view_id|default:"content_right" }}").addView({
             select: "row",
             columns: [
                 {
-                    id: "first_name",
-                    header: "{% trans 'First name' %}",
+                    id: "title",
+                    header: "{% trans 'Title' %}",
                     fillspace: true
                 },
                 {
-                    id: "last_name",
-                    header: "{% trans 'Last name' %}",
+                    id: "description",
+                    header: "{% trans 'Description' %}",
                     fillspace: true
                 }
             ],
@@ -27,7 +27,7 @@ $$("{{ view.webix_view_id|default:"content_right" }}").addView({
                     var $this = this;
 
                     $.ajax({
-                        url: '{% url 'author_update' 1 %}'.replace('1', id.row),
+                        url: '{% url 'book_update' 1 %}'.replace('1', id.row),
                         dataType: "script",
                         success: function (text, data, XmlHttpRequest) {
                         },
@@ -45,7 +45,7 @@ $$("{{ view.webix_view_id|default:"content_right" }}").addView({
                 {
                     view: "button", value: "New", width: 100, align: "center", click: function () {
                         $.ajax({
-                            url: '{% url 'author_create' %}',
+                            url: '{% url 'book_create' %}',
                             dataType: "script",
                             success: function (text, data, XmlHttpRequest) {
                             },

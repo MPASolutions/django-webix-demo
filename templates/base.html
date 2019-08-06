@@ -15,12 +15,26 @@
     webix.ready(function () {
         webix.ui({
             id: 'content_right',
-            rows: []
+            rows: [
+                {
+                    id: 'top', padding: 10, rows: [
+                      {template: "Authors", type: "header"},
+                      {id: 'content_top', rows: []}
+                    ]
+                },
+                {
+                    id: 'bottom', padding: 10, rows: [
+                      {template: "Books", type: "header"},
+                      {id: 'content_bottom', rows: []}
+                    ]
+                },
+            ]
         });
 
         webix.extend($$('content_right'), webix.OverlayBox);
 
         load_js('{% url 'author_list' %}');
+        load_js('{% url 'book_list' %}');
     });
 </script>
 </html>

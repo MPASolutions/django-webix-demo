@@ -1,7 +1,7 @@
 asgiref==3.3.1
 Babel==2.9.0
 Django==3.1.7
--e git+https://github.com/MPASolutions/django-dal@devel#egg=django_dal
+-e git+https://github.com/MPASolutions/django-dal@develop#egg=django_dal
 django-extra-views==0.13.0
 -e git+https://github.com/MPASolutions/django-filtersmerger@main#egg=django_filtersmerger
 django-formtools==2.2
@@ -11,7 +11,7 @@ django-otp==1.0.2
 django-phonenumber-field==3.0.1
 django-two-factor-auth==1.13
 django-user-agents==0.4.0
--e git+https://github.com/MPASolutions/django-webix@devel#egg=django_webix
+-e git+https://github.com/MPASolutions/django-webix@develop#egg=django_webix
 FeinCMS==1.19.0
 Pillow==8.1.2
 psycopg2-binary==2.8.6

@@ -1,12 +1,10 @@
 # -*- coding: utf-8 -*-
 
-from __future__ import unicode_literals
-
-import json
-
+from django.db.models import F, Value as V
+from django.db.models.functions import Concat
 from django.views.generic import TemplateView
-from django_webix.formsets import WebixTabularInlineFormSet
-from django_webix.views import WebixCreateWithInlinesUnmergedView, WebixUpdateWithInlinesView, WebixDeleteView
+from django_webix.forms import WebixTabularInlineFormSet
+from django_webix.views import WebixListView, WebixCreateView, WebixUpdateView, WebixDeleteView
 
 from library.forms import AuthorForm, BookForm
 from library.models import Author, Book, Review
@@ -21,38 +19,43 @@ class BookInline(WebixTabularInlineFormSet):
     fields = '__all__'
 
 
-class AuthorListView(TemplateView):
-    template_name = 'author_list.js'
-    webix_view_id = 'content_top'
+class AuthorListView(WebixListView):
+    model = Author
+    enable_json_loading = True
+    fields = [
+        {
+            'field_name': 'id',
+            'datalist_column': '''{id: "id", serverFilterType: "iexact", header: ["ID", {content: "serverFilter"}], fillspace: true, sort: "server"}'''
+        },
+        {
+            'field_name': 'first_name',
+            'datalist_column': '''{id: "first_name", serverFilterType: "icontains", header: ["First name", {content: "serverFilter"}], fillspace: true, sort: "server"}'''
+        },
+        {
+            'field_name': 'last_name',
+            'datalist_column': '''{id: "last_name", serverFilterType: "icontains", header: ["Last name", {content: "serverFilter"}], fillspace: true, sort: "server"}'''
+        },
+    ]
 
-    def get_context_data(self, **kwargs):
-        context = super(AuthorListView, self).get_context_data(**kwargs)
-        context['datalist'] = json.dumps([{
-            'id': i.pk,
-            'first_name': i.first_name,
-            'last_name': i.last_name
-        } for i in Author.objects.order_by('first_name', 'last_name')])
-        return context
 
-
-class AuthorCreateView(WebixCreateWithInlinesUnmergedView):
+class AuthorCreateView(WebixCreateView):
     model = Author
     inlines = [BookInline]
     form_class = AuthorForm
-    webix_view_id = 'content_top'
+    permissions = False
+    model_copy_fields = ['first_name', 'last_name']
+    inlines_copy_fields = {}
 
 
-class AuthorUpdateView(WebixUpdateWithInlinesView):
+class AuthorUpdateView(WebixUpdateView):
     model = Author
     inlines = [BookInline]
     form_class = AuthorForm
-    webix_view_id = 'content_top'
 
 
 class AuthorDeleteView(WebixDeleteView):
     model = Author
     nested_prevent = True
-    webix_view_id = 'content_top'
 
 
 class ReviewInline(WebixTabularInlineFormSet):
@@ -60,35 +63,49 @@ class ReviewInline(WebixTabularInlineFormSet):
     fields = '__all__'
 
 
-class BookListView(TemplateView):
-    template_name = 'book_list.js'
-    webix_view_id = 'content_bottom'
+class BookListView(WebixListView):
+    model = Book
+    enable_json_loading = True
+    fields = [
+        {
+            'field_name': 'id',
+            'datalist_column': '''{id: "id", serverFilterType: "iexact", header: ["ID", {content: "serverFilter"}], fillspace: true, sort: "server"}'''
+        },
+        {
+            'field_name': 'title',
+            'datalist_column': '''{id: "title", serverFilterType: "icontains", header: ["Title", {content: "serverFilter"}], fillspace: true, sort: "server"}'''
+        },
+        {
+            'field_name': 'description',
+            'datalist_column': '''{id: "description", serverFilterType: "icontains", header: ["Description", {content: "serverFilter"}], fillspace: true, sort: "server"}'''
+        },
+        {
+            'field_name': 'author_fullname',
+            'datalist_column': '''{id: "author_fullname", serverFilterType: "icontains", header: ["Author", {content: "serverFilter"}], fillspace: true, sort: "server"}'''
+        },
+    ]
 
-    def get_context_data(self, **kwargs):
-        context = super(BookListView, self).get_context_data(**kwargs)
-        context['datalist'] = json.dumps([{
-            'id': i.pk,
-            'title': i.title,
-            'description': i.description,
-            'author': '{}'.format(i.author)
-        } for i in Book.objects.order_by('title')])
-        return context
+    def get_initial_queryset(self):
+        qs = super().get_initial_queryset()
+        qs = qs.annotate(
+            author_fullname=Concat(F('author__first_name'), V(" "), F('author__last_name'))
+        )
+        return qs
 
 
-class BookCreateView(WebixCreateWithInlinesUnmergedView):
+class BookCreateView(WebixCreateView):
     model = Book
     inlines = [ReviewInline]
     form_class = BookForm
-    webix_view_id = 'content_bottom'
+    model_copy_fields = ['title', 'description', 'author']
+    inlines_copy_fields = {}
 
 
-class BookUpdateView(WebixUpdateWithInlinesView):
+class BookUpdateView(WebixUpdateView):
     model = Book
     inlines = [ReviewInline]
     form_class = BookForm
-    webix_view_id = 'content_bottom'
 
 
 class BookDeleteView(WebixDeleteView):
     model = Book
-    webix_view_id = 'content_bottom'

@@ -1,36 +1,31 @@
-"""django_webix_demo URL Configuration
+# -*- coding: utf-8 -*-
 
-The `urlpatterns` list routes URLs to views. For more information please see:
-    https://docs.djangoproject.com/en/1.11/topics/http/urls/
-Examples:
-Function views
-    1. Add an import:  from my_app import views
-    2. Add a URL to urlpatterns:  url(r'^$', views.home, name='home')
-Class-based views
-    1. Add an import:  from other_app.views import Home
-    2. Add a URL to urlpatterns:  url(r'^$', Home.as_view(), name='home')
-Including another URLconf
-    1. Import the include() function: from django.conf.urls import url, include
-    2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
-"""
-from django.conf.urls import url, include
+from django.contrib import admin
+from django.urls import path, include
 
-from library.views import HomeView
+from django_webix_demo import admin_webix
 from library.views import AuthorListView, AuthorCreateView, AuthorUpdateView, AuthorDeleteView
 from library.views import BookListView, BookCreateView, BookUpdateView, BookDeleteView
+from library.views import HomeView
 
 urlpatterns = [
-    url(r'^django-webix/', include('django_webix.urls')),
+    path('admin/', admin.site.urls),
 
-    url(r'^$', HomeView.as_view(), name='home'),
+    path('django-webix/', include('django_webix.urls')),
 
-    url(r'^authors/list$', AuthorListView.as_view(), name='author_list'),
-    url(r'^authors/create$', AuthorCreateView.as_view(), name='author_create'),
-    url(r'^authors/update/(?P<pk>\d+)$', AuthorUpdateView.as_view(), name='author_update'),
-    url(r'^authors/delete/(?P<pk>\d+)$', AuthorDeleteView.as_view(), name='author_delete'),
+    # Standard Django-Webix
+    path('', HomeView.as_view(), name='home'),
 
-    url(r'^books/list$', BookListView.as_view(), name='book_list'),
-    url(r'^books/create$', BookCreateView.as_view(), name='book_create'),
-    url(r'^books/update/(?P<pk>\d+)$', BookUpdateView.as_view(), name='book_update'),
-    url(r'^books/delete/(?P<pk>\d+)$', BookDeleteView.as_view(), name='book_delete'),
+    path('authors/list', AuthorListView.as_view(), name='library.author.list'),
+    path('authors/create', AuthorCreateView.as_view(), name='library.author.create'),
+    path('authors/update/<int:pk>', AuthorUpdateView.as_view(), name='library.author.update'),
+    path('authors/delete/<int:pk>', AuthorDeleteView.as_view(), name='library.author.delete'),
+
+    path('books/list', BookListView.as_view(), name='library.book.list'),
+    path('books/create', BookCreateView.as_view(), name='library.book.create'),
+    path('books/update/<int:pk>', BookUpdateView.as_view(), name='library.book.update'),
+    path('books/delete/<int:pk>', BookDeleteView.as_view(), name='library.book.delete'),
+
+    # Admin Django-Webix
+    path('webix-admin/', admin_webix.webix_site.urls),
 ]

@@ -4,7 +4,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Django Webix DEMO</title>
 
     {% include "django_webix/static_meta.html" %}
 </head>
@@ -14,27 +14,91 @@
 <script type="text/javascript" charset="utf-8">
     webix.ready(function () {
         webix.ui({
-            id: 'content_right',
+            id: "main_container",
             rows: [
                 {
-                    id: 'top', padding: 10, rows: [
-                      {template: "Authors", type: "header"},
-                      {id: 'content_top', rows: []}
+                    view: "toolbar",
+                    elements: [
+                        {
+                            align: "left",
+                            width: 300,
+                            template: "<span style='text-decoration:none; color: #FFFFFF; border:none;'>Django Webix DEMO</span>",
+                            type: "header",
+                            borderless: true
+                        },
+                        {$template: "Spacer"},
                     ]
                 },
                 {
-                    id: 'bottom', padding: 10, rows: [
-                      {template: "Books", type: "header"},
-                      {id: 'content_bottom', rows: []}
+                    type: "space",
+                    id: "content",
+                    cols: [
+                        {
+                            view: "sidebar",
+                            id: "sidebar",
+                            width: 250,
+                            data: [
+                                {% if perms.library.view_author %}
+                                    {
+                                        id: "authors",
+                                        value: "Authors",
+                                        icon: "fas fa-pen-fancy",
+                                        url: "{% url 'library.author.list' %}",
+                                        ajax: true
+                                    },
+                                {% endif %}
+                                {% if perms.library.view_book %}
+                                    {
+                                        id: "books",
+                                        value: "Books",
+                                        icon: "fas fa-book",
+                                        url: "{% url 'library.book.list' %}",
+                                        ajax: true
+                                    },
+                                {% endif %}
+                            ],
+                            on: {
+                                onAfterSelect: function (id) {
+                                    var item = this.getItem(id);
+                                    if ('ajax' in item && item.ajax === true) {
+                                        load_js(item.url);
+                                    } else {
+                                        location.href = item.url;
+                                    }
+                                }
+                            }
+                        },
+                        {
+                            view: "scrollview",
+                            borderless: true,
+                            scroll: "y",
+                            body: {
+                                rows: [
+                                    {
+                                        margin: 5,
+                                        id: 'content_right',
+                                        type: "wide",
+                                        rows: []
+                                    },
+                                    {% if request.user.is_anonymous %}
+                                        {
+                                            view: "template",
+                                            autoheight:true,
+                                            css: {"text-align": "center", "padding": "10px"},
+                                            template: "<b>You have to login to see this page</b><br/>Go to <a href='{% url "admin:index" %}'>admin</a> page"
+                                        }
+                                    {% endif %}
+                                ]
+                            }
+                        }
                     ]
-                },
+                }
             ]
         });
 
         webix.extend($$('content_right'), webix.OverlayBox);
 
-        load_js('{% url 'author_list' %}');
-        load_js('{% url 'book_list' %}');
+        $$('sidebar').select("authors");
     });
 </script>
 </html>

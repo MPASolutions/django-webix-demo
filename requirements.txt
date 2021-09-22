@@ -1,6 +1,6 @@
 asgiref==3.3.1
 Babel==2.9.0
-Django==3.1.7
+Django==3.1.13
 -e git+https://github.com/MPASolutions/django-dal@develop#egg=django_dal
 django-extra-views==0.13.0
 -e git+https://github.com/MPASolutions/django-filtersmerger@main#egg=django_filtersmerger
